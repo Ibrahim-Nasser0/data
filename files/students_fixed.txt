@@ -1,0 +1,8 @@
+id
+name
+gpa
+department
+email
+phoneNumber
+level
+1   S01                 2.60  IS    s1@example.com                0101001     two     2   S02                 2.70  IT    s2@example.com                0101002     three   3   S03                 2.80  SE    s3@example.com                0101003     four    4   S04                 2.90  DS    s4@example.com                0101004     one     5   S05                 3.00  CS    s5@example.com                0101005     two     6   S06                 3.10  IS    s6@example.com                0101006     three   7   S07                 3.20  IT    s7@example.com                0101007     four    8   S08                 3.30  SE    s8@example.com                0101008     one     9   S09                 3.40  DS    s9@example.com                0101009     two     10  S10                 2.50  CS    s10@example.com               0101010     three   11  S11                 2.60  IS    s11@example.com               0101011     four    12  S12                 2.70  IT    s12@example.com               0101012     one     13  S13                 2.80  SE    s13@example.com               0101013     two     14  S14                 2.90  DS    s14@example.com               0101014     three   15  S15                 3.00  CS    s15@example.com               0101015     four    16  S16                 3.10  IS    s16@example.com               0101016     one     17  S17                 3.20  IT    s17@example.com               0101017     two     18  S18                 3.30  SE    s18@example.com               0101018     three   19  S19                 3.40  DS    s19@example.com               0101019     four    20  S20                 2.50  CS    s20@example.com               0101020     one

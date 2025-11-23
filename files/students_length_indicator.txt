@@ -1,0 +1,8 @@
+id
+name
+gpa
+department
+email
+phoneNumber
+level
+49#1#13#S014#2.602#IS14#s1@example.com7#01010013#two51#1#23#S024#2.702#IT14#s2@example.com7#01010025#three50#1#33#S034#2.802#SE14#s3@example.com7#01010034#four49#1#43#S044#2.902#DS14#s4@example.com7#01010043#one49#1#53#S054#3.002#CS14#s5@example.com7#01010053#two51#1#63#S064#3.102#IS14#s6@example.com7#01010065#three50#1#73#S074#3.202#IT14#s7@example.com7#01010074#four49#1#83#S084#3.302#SE14#s8@example.com7#01010083#one49#1#93#S094#3.402#DS14#s9@example.com7#01010093#two53#2#103#S104#2.502#CS15#s10@example.com7#01010105#three52#2#113#S114#2.602#IS15#s11@example.com7#01010114#four51#2#123#S124#2.702#IT15#s12@example.com7#01010123#one51#2#133#S134#2.802#SE15#s13@example.com7#01010133#two53#2#143#S144#2.902#DS15#s14@example.com7#01010145#three52#2#153#S154#3.002#CS15#s15@example.com7#01010154#four51#2#163#S164#3.102#IS15#s16@example.com7#01010163#one51#2#173#S174#3.202#IT15#s17@example.com7#01010173#two53#2#183#S184#3.302#SE15#s18@example.com7#01010185#three52#2#193#S194#3.402#DS15#s19@example.com7#01010194#four51#2#203#S204#2.502#CS15#s20@example.com7#01010203#one

@@ -1,0 +1,40 @@
+data/(Data handling and storage)
+     │     
+     ├── storage/
+     │     ├── file_manager.dart(Manages file read/write operations) 
+     │     │ 
+     │     ├── header/(File header definitions)
+     │     │      └── file_header.dart (Defines structure of file headers)
+     │     │  
+     │     ├── formats/(Different file format handlers)
+     │     │    ├── field/(Different field types)
+     │     │    │     ├── fixed_length_field.dart
+     │     │    │     ├── delimited_field.dart
+     │     │    │     ├── Keyword_field.dart
+     │     │    │     └── length_indicator_field.dart
+     |     |    |
+     │     │    ├── record/(Different record structures)
+     │     │    │     ├── fixed_length_record.dart
+     │     │    │     ├── delimited_record.dart
+     │     │    │     ├── length_indicator_record.dart
+     │     │    │     └── number_of_field_in_record.dart
+     │     │    ├── record_separator.dart     
+     │     │    └── generic_record_format.dart
+     |     |
+     │     └── migration/(File format migration tools)
+     │            └── file_migrator.dart (Converts between different file formats)
+     │
+     ├── models/(Data models)
+     │     ├── courses_model.dart(Defines the Course data structure)
+     |     ├── department_model.dart
+     |     ├── search_department_model.dart
+     |     ├── search_student_model.dart
+     │     └── student_model.dart 
+     │
+     ├── repository/(Data access layer)
+     │     ├── department_repositor.dart(Handles CRUD operations for Course records) 
+     │     ├── courses_repositor.dart(Handles CRUD operations for Course records) 
+     │     └── student_repository.dart(Handles CRUD operations for Student records)
+     │
+     └── helpers/(Utility functions for data handling)
+           └── time_measure.dart(Measures time taken for file operations)
