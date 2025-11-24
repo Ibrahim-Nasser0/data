@@ -32,8 +32,9 @@ class StudentRepository {
         .toList();
 
     final dataBody = recordFormat.encode(records);
-    final header = recordFormat.headerString();
-    final fullContent = '$header\n$dataBody';
+    final headerNames = recordFormat.headerString();
+    final metaHeader = recordFormat.header;
+    final fullContent = '$headerNames\n$metaHeader\n$dataBody';
 
     await fileManager.write(fileName, fullContent);
   }
@@ -47,10 +48,18 @@ class StudentRepository {
     if (raw.trim().isEmpty) return [];
 
     final lines = raw.split('\n').where((l) => l.trim().isNotEmpty).toList();
-    if (lines.length < 2) return [];
+    if (lines.isEmpty) return [];
 
-    // First line is always header; skip it and join the rest as data
-    final dataLines = lines.skip(1).join('\n');
+    // We write two header lines: a human-friendly names line and a metadata
+    // line (FIELDS=...,TYPE=...,DELIMITER=...). Detect the metadata line
+    // and skip it when present to avoid attempting to parse it as data.
+    String dataLines;
+    if (lines.length >= 2 &&
+        (lines[1].startsWith('FIELDS=') || lines[1].contains('TYPE='))) {
+      dataLines = lines.skip(2).join('\n');
+    } else {
+      dataLines = lines.skip(1).join('\n');
+    }
     if (dataLines.trim().isEmpty) return [];
 
     try {
@@ -123,8 +132,9 @@ class StudentRepository {
   }
 
   Future<void> deleteAll() async {
-    final header = recordFormat.headerString();
-    await fileManager.write(fileName, header);
+    final headerNames = recordFormat.headerString();
+    final metaHeader = recordFormat.header;
+    await fileManager.write(fileName, '$headerNames\n$metaHeader');
   }
 
   // ======================= SEARCH METHODS =======================

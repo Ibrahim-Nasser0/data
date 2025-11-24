@@ -22,19 +22,21 @@ class GenericRecordFormat implements RecordFormat {
   /// ======================================
 
   String headerString() {
-    return fieldFormats
-        .map((f) => f.headerName)
-        .join(recordSeparator.delimiter);
+    // Use a stable separator for header field names (pipe) instead of
+    // the record separator which may be a newline or other token.
+    return fieldFormats.map((f) => f.headerName).join('|');
   }
 
   static String _generateHeader(
     List<FieldFormat> fieldFormats,
     RecordSeparator sep,
   ) {
+    // Produce a metadata header in comma-separated key=value pairs so
+    // it's easy to parse later with split(',').
     final type = sep.type.name;
     final fieldsCount = fieldFormats.length;
     final delimiter = sep.delimiter;
-    return 'FIELDS=$fieldsCount;TYPE=$type;DELIMITER=$delimiter';
+    return 'FIELDS=$fieldsCount,TYPE=$type,DELIMITER=${Uri.encodeComponent(delimiter)}';
   }
 
   /// ======================================
@@ -62,12 +64,11 @@ class GenericRecordFormat implements RecordFormat {
           );
           break;
         case 'DELIMITER':
-          delimiter = value;
+          delimiter = Uri.decodeComponent(value);
           break;
       }
     }
 
-    // نفترض كل الحقول LengthIndicatorField كبداية
     final fields = List<FieldFormat>.generate(
       fieldCount,
       (_) => LengthIndicatorField(),
@@ -107,7 +108,9 @@ class GenericRecordFormat implements RecordFormat {
         while (index < raw.length) {
           final hashPos = raw.indexOf('#', index);
           if (hashPos == -1) break;
-          final len = int.parse(raw.substring(index, hashPos));
+          final lenStr = raw.substring(index, hashPos);
+          final len = int.tryParse(lenStr) ?? -1;
+          if (len < 0) break;
           final start = hashPos + 1;
           final end = (start + len).clamp(0, raw.length);
           final recordStr = raw.substring(start, end);
@@ -124,6 +127,8 @@ class GenericRecordFormat implements RecordFormat {
         int idx = 0;
         while (idx < raw.length) {
           final result = _decodeRecordFrom(raw, idx);
+          // Prevent infinite loop on malformed input.
+          if (result.nextIndex <= idx) break;
           records.add(result.record);
           idx = result.nextIndex;
         }
@@ -156,9 +161,25 @@ class GenericRecordFormat implements RecordFormat {
         }
       } else if (f is LengthIndicatorField) {
         final hashPos = raw.indexOf('#', index);
-        final len = int.parse(raw.substring(index, hashPos));
-        fieldValues.add(raw.substring(hashPos + 1, hashPos + 1 + len));
-        index = hashPos + 1 + len;
+        if (hashPos == -1) {
+          // malformed - consume rest as a single field
+          final rest = raw.substring(index);
+          fieldValues.add(f.decode(rest));
+          index = raw.length;
+        } else {
+          final lenStr = raw.substring(index, hashPos);
+          final len = int.tryParse(lenStr) ?? -1;
+          if (len < 0) {
+            // treat remainder as the field
+            final rest = raw.substring(hashPos + 1);
+            fieldValues.add(f.decode(rest));
+            index = raw.length;
+          } else {
+            final endPos = (hashPos + 1 + len).clamp(0, raw.length);
+            fieldValues.add(raw.substring(hashPos + 1, endPos));
+            index = hashPos + 1 + len;
+          }
+        }
       } else if (f is KeywordField) {
         final end = raw.indexOf(';', index);
 
@@ -259,10 +280,13 @@ class GenericRecordFormat implements RecordFormat {
           buffer.write(recordStr);
           break;
         case RecordSeparatorType.lengthIndicator:
-          buffer.write('${recordStr.length}#$recordStr');
+          buffer.write('${recordStr.length}#$recordStr${recordSeparator.delimiter}');
           break;
         case RecordSeparatorType.numberOfFields:
-          buffer.write(recordStr);
+          // For number-of-fields mode, separate records with the record
+          // delimiter (e.g. newline) so the repository/readers can split
+          // records correctly when necessary.
+          buffer.write(recordStr + recordSeparator.delimiter);
           break;
       }
     }
@@ -270,7 +294,7 @@ class GenericRecordFormat implements RecordFormat {
     return buffer.toString().trim();
   }
 
-  /// Convenience: encode from raw rows (list of field string lists)
+
   String encodeFromRows(List<List<String>> rows) {
     final records = rows.map((r) => Record(r)).toList();
     return encode(records);

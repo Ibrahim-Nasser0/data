@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'models/student_model.dart';
-import 'storage/file_manager.dart';
+import 'repository/student_repository.dart';
 import 'storage/formats/field/keyword_field.dart';
 import 'storage/formats/field/length_indicator_field.dart';
 import 'storage/formats/field/fixed_length_field.dart';
@@ -21,23 +21,15 @@ Future<void> main() async {
         KeywordField('Level', headerName: 'level'),
       ],
       recordSeparator: RecordSeparator(
-        '|',
+        '\n',
         type: RecordSeparatorType.delimited,
       ),
     ),
 
     'students_length_indicator.txt': GenericRecordFormat(
-      fieldFormats: [
-        LengthIndicatorField(headerName: 'id'),
-        LengthIndicatorField(headerName: 'name'),
-        LengthIndicatorField(headerName: 'gpa'),
-        LengthIndicatorField(headerName: 'department'),
-        LengthIndicatorField(headerName: 'email'),
-        LengthIndicatorField(headerName: 'phoneNumber'),
-        LengthIndicatorField(headerName: 'level'),
-      ],
+      fieldFormats: List.generate(7, (_) => LengthIndicatorField()),
       recordSeparator: RecordSeparator(
-        '#',
+        '\n',
         type: RecordSeparatorType.lengthIndicator,
       ),
     ),
@@ -53,78 +45,64 @@ Future<void> main() async {
         FixedLengthField(8, headerName: 'level'),
       ],
       recordSeparator: RecordSeparator(
-        '|',
+        '\n',
         type: RecordSeparatorType.fixedLength,
         recordLength: 86,
       ),
     ),
 
     'students_delimited_field.txt': GenericRecordFormat(
-      fieldFormats: [
-        DelimitedField(delimiter: '|', headerName: 'id'),
-        DelimitedField(delimiter: '|', headerName: 'name'),
-        DelimitedField(delimiter: '|', headerName: 'gpa'),
-        DelimitedField(delimiter: '|', headerName: 'department'),
-        DelimitedField(delimiter: '|', headerName: 'email'),
-        DelimitedField(delimiter: '|', headerName: 'phoneNumber'),
-        DelimitedField(delimiter: '|', headerName: 'level'),
-      ],
+      fieldFormats: List.generate(7, (_) => DelimitedField(delimiter: '|')),
       recordSeparator: RecordSeparator(
-        '|',
+        '\n',
         type: RecordSeparatorType.delimited,
       ),
     ),
 
+    // numberOfFields: fields are encoded sequentially per record; use newline to separate records
     'students_number_of_fields.txt': GenericRecordFormat(
-      fieldFormats: [
-        LengthIndicatorField(headerName: 'id'),
-        LengthIndicatorField(headerName: 'name'),
-        LengthIndicatorField(headerName: 'gpa'),
-        LengthIndicatorField(headerName: 'department'),
-        LengthIndicatorField(headerName: 'email'),
-        LengthIndicatorField(headerName: 'phoneNumber'),
-        LengthIndicatorField(headerName: 'level'),
-      ],
+      fieldFormats: List.generate(7, (_) => LengthIndicatorField()),
       recordSeparator: RecordSeparator(
-        '|',
+        '\n',
         type: RecordSeparatorType.numberOfFields,
         fieldCount: 7,
       ),
     ),
   };
 
-  final fm = FileManager();
   for (var entry in formats.entries) {
     final fileName = entry.key;
     final fmt = entry.value;
 
-    // Build records in memory and write directly to file to avoid parsing while bootstrapping
-    final rows = <List<String>>[];
+    // Use the repository API to create the file and add students.
+    final repo = StudentRepository(recordFormat: fmt, fileName: fileName);
+
+    // Start fresh
+    await repo.deleteAll();
+
     for (int i = 1; i <= 20; i++) {
       final s = StudentModel(
         id: i,
-        name: 'S${i.toString().padLeft(2, '0')}',
+        name: 'Student${i.toString().padLeft(2, '0')}',
         gpa: 2.5 + (i % 10) * 0.1,
         department: ['CS', 'IS', 'IT', 'SE', 'DS'][i % 5],
-        email: 's${i}@example.com',
+        email: 'stu${i}@example.com',
         phoneNumber: '010${1000 + i}',
         level: ['one', 'two', 'three', 'four'][i % 4],
       );
-      rows.add([
-        s.id.toString(),
-        s.name,
-        s.gpa.toStringAsFixed(2),
-        s.department,
-        s.email,
-        s.phoneNumber,
-        s.level,
-      ]);
+
+      await repo.add(s);
     }
 
-    final dataBody = fmt.encodeFromRows(rows);
-    final header = fmt.headerString();
-    final full = '$header\n$dataBody';
-    await fm.write(fileName, full);
-    print('Created $fileName with 20 students');
+    final students = await repo.getAll();
+    print(
+      'Created ${students.length} students in $fileName via StudentRepository',
+    );
+    if (students.isNotEmpty) {
+      final first = students.first;
+      print(
+        ' First student: id=${first.id}, name=${first.name}, gpa=${first.gpa}',
+      );
+    }
   }
 }

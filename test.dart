@@ -120,7 +120,7 @@ void testStudent() async {
       ),
     };
 
-    // generate 20 sample students into each format file
+  
     for (var entry in formats.entries) {
       final fileName = entry.key;
       final fmt = entry.value;
