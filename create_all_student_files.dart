@@ -9,6 +9,15 @@ import 'storage/formats/generic_record_format.dart';
 import 'storage/formats/record_separator.dart';
 
 Future<void> main() async {
+  final List hederName = [
+    'id',
+    'name',
+    'gpa',
+    'department',
+    'email',
+    'phoneNumber',
+    'level',
+  ];
   final formats = <String, GenericRecordFormat>{
     'students_keyword.txt': GenericRecordFormat(
       fieldFormats: [
@@ -27,7 +36,10 @@ Future<void> main() async {
     ),
 
     'students_length_indicator.txt': GenericRecordFormat(
-      fieldFormats: List.generate(7, (_) => LengthIndicatorField()),
+      fieldFormats: List.generate(
+        7,
+        (int index) => LengthIndicatorField(headerName: hederName[index]),
+      ),
       recordSeparator: RecordSeparator(
         '\n',
         type: RecordSeparatorType.lengthIndicator,
@@ -52,7 +64,10 @@ Future<void> main() async {
     ),
 
     'students_delimited_field.txt': GenericRecordFormat(
-      fieldFormats: List.generate(7, (_) => DelimitedField(delimiter: '|')),
+      fieldFormats: List.generate(
+        7,
+        (index) => DelimitedField(headerName: hederName[index], delimiter: '|'),
+      ),
       recordSeparator: RecordSeparator(
         '\n',
         type: RecordSeparatorType.delimited,
@@ -61,7 +76,10 @@ Future<void> main() async {
 
     // numberOfFields: fields are encoded sequentially per record; use newline to separate records
     'students_number_of_fields.txt': GenericRecordFormat(
-      fieldFormats: List.generate(7, (_) => LengthIndicatorField()),
+      fieldFormats: List.generate(
+        7,
+        (index) => LengthIndicatorField(headerName: hederName[index]),
+      ),
       recordSeparator: RecordSeparator(
         '\n',
         type: RecordSeparatorType.numberOfFields,

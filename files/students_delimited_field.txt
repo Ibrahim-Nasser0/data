@@ -1,4 +1,4 @@
-FIELD|FIELD|FIELD|FIELD|FIELD|FIELD|FIELD
+id|name|gpa|department|email|phoneNumber|level
 FIELDS=7,TYPE=delimited,DELIMITER=%0A
 1|Student01|2.6|IS|stu1@example.com|0101001|two|
 2|Student02|2.7|IT|stu2@example.com|0101002|three|

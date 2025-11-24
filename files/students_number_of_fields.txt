@@ -1,4 +1,4 @@
-FIELD|FIELD|FIELD|FIELD|FIELD|FIELD|FIELD
+id|name|gpa|department|email|phoneNumber|level
 FIELDS=7,TYPE=numberOfFields,DELIMITER=%0A
 1#19#Student013#2.62#IS16#stu1@example.com7#01010013#two
 1#29#Student023#2.72#IT16#stu2@example.com7#01010025#three
