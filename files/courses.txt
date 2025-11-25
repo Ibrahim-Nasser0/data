@@ -1,0 +1,105 @@
+Code|CourseName|CreditHours|EnrolledStudents|Instuctor|department
+MT103:Linear Algebra:3:350:DR.Mous:Mathematics:
+MT104:Discrete Mathematics:3:300:DR.Hassan Ali:Mathematics:
+MT105:Probability and Statistics:3:250:DR.Hoda:Mathematics:
+MT106:Physics 1:4:400:DR.Kamel:Physics:
+MT107:Physics 2:4:350:DR.Kamel:Physics:
+MT108:Intro to IT:3:500:DR.Noha:Information Systems:
+MT110:Technical Writing:2:200:DR.Sarah Jones:Humanities:
+MT201:Calculus 3:3:200:DR.sad:Mathematics:
+MT202:Differential Equations:3:180:DR.Mous:Mathematics:
+MT206:Programing 2 (Advanced):3:150:DR.Ahmed Fathalah:Programing:
+MT207:Web Development 1:3:120:DR.Mostafa:Web Engineering:
+MT208:Web Development 2:3:100:DR.Mostafa:Web Engineering:
+MT209:Digital Logic Design:3:150:DR.Osama:Computer Engineering:
+MT210:Electronics:3:120:DR.Osama:Computer Engineering:
+MT211:Database Management Systems 1:3:180:DR.Rania:Information Systems:-
+MT212:Systems Analysis:3:160:DR.Rania:Information Systems:
+MT303:Operating Systems:3:90:DR.Abul Wahab:Programing:
+MT305:Computer Networks 1:3:100:DR.Tarek:Networking:
+MT306:Computer Networks 2:3:80:DR.Tarek:Networking:
+MT307:Software Engineering 1:3:110:DR.Amr:Software Engineering:
+MT308:Software Engineering 2:3:90:DR.Amr:Software Engineering:
+MT309:Artificial Intelligence:3:70:DR.Yasser:Intelligent Systems:
+MT310:Computer Graphics:3:60:DR.Mona:Computer Science:
+MT311:Human Computer Interaction:3:80:DR.Noha:Information Systems:
+MT312:Database Systems 2:3:100:DR.Rania:Information Systems:
+MT313:Assembly Language:3:70:DR.Ahmed Fathalah:Programing:
+MT314:Theory of Computation:3:50:DR.Abul Wahab:Computer Science:
+MT315:Multimedia Systems:3:60:DR.Mona:Computer Science:
+MT401:Compiler Design:3:40:DR.Abul Wahab:Computer Science:
+MT402:Distributed Systems:3:40:DR.Tarek:Networking:
+MT403:Network Security:3:50:DR.Tarek:Networking:
+MT405:Design Patterns:3:45:DR.Ahmed Fathalah:Programing:
+MT406:Mobile App Development:3:60:DR.Mostafa:Web Engineering:
+MT407:Cloud Computing:3:50:DR.Tarek:Networking:
+MT409:Machine Learning:3:35:DR.Yasser:Intelligent Systems:
+MT410:Image Processing:3:30:DR.Yasser:Intelligent Systems:
+MT411:Data Mining:3:40:DR.Rania:Information Systems:
+MT412:Big Data Analytics:3:35:DR.Rania:Information Systems:
+MT413:Internet of Things:3:40:DR.Osama:Computer Engineering:
+MT414:Embedded Systems:3:30:DR.Osama:Computer Engineering:
+MT415:Project Management:2:100:DR.Sarah Jones:Management:
+MT416:IT Ethics:2:200:DR.Sarah Jones:Humanities:
+MT417:Graduation Project 1:4:200:DR.Committee:General:
+MT418:Graduation Project 2:4:200:DR.Committee:General:
+MT419:Cryptography:3:40:DR.Tarek:Security:
+MT420:Cyber Security Fundamentals:3:50:DR.Tarek:Security:
+MT421:Blockchain Technology:3:30:DR.Amr:Computer Science:
+MT422:Virtual Reality:3:30:DR.Mona:Computer Science:
+MT423:Game Development:3:40:DR.Mona:Computer Science:
+MT424:Bioinformatics:3:25:DR.Hoda:Computer Science:
+MT425:Natural Language Processing:3:30:DR.Yasser:Intelligent Systems:
+MT426:Robotics:3:30:DR.Osama:Computer Engineering:
+MT427:Microprocessors:3:60:DR.Osama:Computer Engineering:
+MT428:Signals and Systems:3:70:DR.Kamel:Computer Engineering:
+MT429:Control Systems:3:60:DR.Kamel:Computer Engineering:
+MT430:Numerical Analysis:3:100:DR.Mous:Mathematics:
+MT431:Operations Research:3:80:DR.sad:Mathematics:
+MT432:Information Retrieval:3:40:DR.Rania:Information Systems:
+MT433:Decision Support Systems:3:50:DR.Noha:Information Systems:
+MT434:E-Commerce Strategy:3:90:DR.Noha:Information Systems:
+MT435:Enterprise Resource Planning:3:60:DR.Noha:Information Systems:
+MT436:Software Testing:3:50:DR.Amr:Software Engineering:
+MT437:Agile Methods:3:60:DR.Amr:Software Engineering:
+MT438:Quality Assurance:3:55:DR.Amr:Software Engineering:
+MT439:Wireless Networks:3:45:DR.Tarek:Networking:
+MT440:Network Administration:3:40:DR.Tarek:Networking:
+MT441:Advanced Java:3:60:DR.Ahmed Fathalah:Programing:
+MT442:Python for Data Science:3:50:DR.Yasser:Programing:
+MT443:C# Programming:3:80:DR.Mostafa:Programing:
+MT444:Linux Administration:3:40:DR.Abul Wahab:Programing:
+MT445:Computer Vision:3:30:DR.Yasser:Intelligent Systems:
+MT446:Deep Learning:3:25:DR.Yasser:Intelligent Systems:
+MT447:Pattern Recognition:3:30:DR.Yasser:Intelligent Systems:
+MT448:Neural Networks:3:30:DR.Yasser:Intelligent Systems:
+MT449:Fuzzy Logic:3:35:DR.sad:Mathematics:
+MT450:Graph Theory:3:40:DR.Hassan Ali:Mathematics:
+MT451:Combinatorics:3:40:DR.Hassan Ali:Mathematics:
+MT452:Business Intelligence:3:50:DR.Rania:Information Systems:
+MT453:Data Warehousing:3:50:DR.Rania:Information Systems:
+MT454:Geographic Info Systems:3:40:DR.Noha:Information Systems:
+MT455:Multimedia Networking:3:30:DR.Mona:Networking:
+MT456:Digital Signal Processing:3:40:DR.Kamel:Computer Engineering:
+MT457:VLSI Design:3:25:DR.Osama:Computer Engineering:
+MT458:Real-Time Systems:3:30:DR.Abul Wahab:Computer Science:
+MT459:Parallel Computing:3:30:DR.Abul Wahab:Computer Science:
+MT460:Information Theory:3:35:DR.Hoda:Mathematics:
+MT461:Stochastic Processes:3:30:DR.Hoda:Mathematics:
+MT462:Marketing for IT:2:150:DR.Sarah Jones:Management:
+MT463:Entrepreneurship:2:120:DR.Sarah Jones:Management:
+MT464:Organizational Behavior:2:150:DR.Sarah Jones:Management:
+MT465:Communication Skills:2:300:DR.Sarah Jones:Humanities:
+MT466:Critical Thinking:2:250:DR.Sarah Jones:Humanities:
+MT467:Introduction to Psychology:2:200:DR.Guest:Humanities:
+MT468:Microeconomics:3:200:DR.Guest:Management:
+MT469:Macroeconomics:3:200:DR.Guest:Management:
+MT470:Accounting Fundamentals:3:180:DR.Guest:Management:
+MT471:Supply Chain Management:3:100:DR.Guest:Management:
+MT472:HR Management:3:120:DR.Sarah Jones:Management:
+MT473:Advanced Database:3:40:DR.Rania:Information Systems:
+MT474:NoSQL Databases:3:45:DR.Rania:Information Systems:
+MT475:Serverless Architecture:3:30:DR.Mostafa:Web Engineering:
+MT476:DevOps Practices:3:35:DR.Amr:Software Engineering:
+MT477:Ethical Hacking:3:40:DR.Tarek:Security:
+MT478:Digital Forensics:3:30:DR.Tarek:Security:
