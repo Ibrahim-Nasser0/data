@@ -2,7 +2,8 @@ import 'field_format.dart';
 
 class FixedLengthField implements FieldFormat {
   final int length;
-   final String headerName;
+   @override
+     final String headerName;
   FixedLengthField(this.length, {this.headerName = 'FIELD'});
 
   @override

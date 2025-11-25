@@ -1,3 +1,6 @@
+import 'package:student_info_system/data/storage/formats/field/keyword_field.dart';
+import 'package:student_info_system/data/storage/formats/record_separator.dart';
+
 import '../storage/file_manager.dart';
 import '../models/search_student_model.dart';
 import '../models/student_model.dart';
@@ -5,14 +8,20 @@ import '../storage/formats/generic_record_format.dart';
 import '../storage/formats/record/record_format.dart';
 
 class StudentRepository {
-  final FileManager fileManager = FileManager();
-  final GenericRecordFormat recordFormat;
-  final String fileName;
-
-  StudentRepository({
-    required this.recordFormat,
-    this.fileName = 'students.txt',
-  });
+  final FileManager fileManager = FileManager(basePath: 'lib/data/files');
+  final GenericRecordFormat recordFormat = GenericRecordFormat(
+    fieldFormats: [
+      KeywordField('ID', headerName: 'id'),
+      KeywordField('Name', headerName: 'name'),
+      KeywordField('GPA', headerName: 'gpa'),
+      KeywordField('Department', headerName: 'department'),
+      KeywordField('Email', headerName: 'email'),
+      KeywordField('PhoneNumber', headerName: 'phoneNumber'),
+      KeywordField('Level', headerName: 'level'),
+    ],
+    recordSeparator: RecordSeparator('|', type: RecordSeparatorType.delimited),
+  );
+  final String fileName = 'students.txt';
 
   // ======================= HELPER METHOD =======================
 

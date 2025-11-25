@@ -4,7 +4,7 @@ import 'dart:convert';
 class FileManager {
   final String basePath;
 
-  FileManager({this.basePath = 'files'}) {
+  FileManager({this.basePath = 'lib/data/files'}) {
     Directory(basePath).createSync(recursive: true);
   }
 
@@ -14,7 +14,7 @@ class FileManager {
   }
 
   Future<String> read(String filename) async {
-    final file = File('$basePath/$filename'); 
+    final file = File('$basePath/$filename');
     return await file.readAsString(encoding: utf8);
   }
 

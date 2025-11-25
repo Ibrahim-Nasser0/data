@@ -1,6 +1,5 @@
 import '../storage/file_manager.dart';
 import '../models/course_model.dart';
-
 import '../models/search_course_model.dart';
 import '../storage/formats/generic_record_format.dart';
 import '../storage/formats/record/record_format.dart';
@@ -89,7 +88,7 @@ class CourseRepository {
   Future<void> add(CourseModel course) async {
     List<CourseModel> existing = await getAll();
 
-    // نتحقق من عدم تكرار الكود
+   
     if (existing.any((c) => c.code == course.code)) {
       throw Exception("Course with code ${course.code} already exists.");
     }

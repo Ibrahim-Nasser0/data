@@ -9,7 +9,7 @@ import 'record_separator.dart';
 class GenericRecordFormat implements RecordFormat {
   final List<FieldFormat> fieldFormats;
   final RecordSeparator recordSeparator;
-  final String header; // نضيف Header هنا
+  final String header;
 
   GenericRecordFormat({
     required this.fieldFormats,
@@ -17,13 +17,7 @@ class GenericRecordFormat implements RecordFormat {
     String? header,
   }) : header = header ?? _generateHeader(fieldFormats, recordSeparator);
 
-  /// ======================================
-  /// توليد Header تلقائي من FieldFormats و RecordSeparator
-  /// ======================================
-
   String headerString() {
-    // Use a stable separator for header field names (pipe) instead of
-    // the record separator which may be a newline or other token.
     return fieldFormats.map((f) => f.headerName).join('|');
   }
 
@@ -31,17 +25,12 @@ class GenericRecordFormat implements RecordFormat {
     List<FieldFormat> fieldFormats,
     RecordSeparator sep,
   ) {
-    // Produce a metadata header in comma-separated key=value pairs so
-    // it's easy to parse later with split(',').
     final type = sep.type.name;
     final fieldsCount = fieldFormats.length;
     final delimiter = sep.delimiter;
     return 'FIELDS=$fieldsCount,TYPE=$type,DELIMITER=${Uri.encodeComponent(delimiter)}';
   }
 
-  /// ======================================
-  /// قراءة الـ Header
-  /// ======================================
   static GenericRecordFormat fromHeader(String headerLine) {
     final parts = headerLine.split(',');
     int fieldCount = 0;
@@ -106,28 +95,28 @@ class GenericRecordFormat implements RecordFormat {
       case RecordSeparatorType.lengthIndicator:
         int index = 0;
         while (index < raw.length) {
-          final hashPos = raw.indexOf('#', index);
-          if (hashPos == -1) break;
-          final lenStr = raw.substring(index, hashPos);
+          // Parse length digits
+          int lenEnd = index;
+          while (lenEnd < raw.length && int.tryParse(raw[lenEnd]) != null) {
+            lenEnd++;
+          }
+          if (lenEnd == index) break; // No digits found
+          final lenStr = raw.substring(index, lenEnd);
           final len = int.tryParse(lenStr) ?? -1;
           if (len < 0) break;
-          final start = hashPos + 1;
+          final start = lenEnd;
           final end = (start + len).clamp(0, raw.length);
           final recordStr = raw.substring(start, end);
           records.add(_decodeFields(recordStr));
-          if (end <= hashPos) break;
-          index = hashPos + 1 + len;
+          if (end <= lenEnd) break;
+          index = lenEnd + len;
         }
         break;
 
       case RecordSeparatorType.numberOfFields:
-        // Decode sequential records where each record contains a known number of fields.
-        // We decode each record by parsing fields according to the configured FieldFormat
-        // starting at the current index and advancing the index as we consume characters.
         int idx = 0;
         while (idx < raw.length) {
           final result = _decodeRecordFrom(raw, idx);
-          // Prevent infinite loop on malformed input.
           if (result.nextIndex <= idx) break;
           records.add(result.record);
           idx = result.nextIndex;
@@ -160,24 +149,28 @@ class GenericRecordFormat implements RecordFormat {
           index = delimIndex + f.delimiter.length;
         }
       } else if (f is LengthIndicatorField) {
-        final hashPos = raw.indexOf('#', index);
-        if (hashPos == -1) {
+        // Parse length digits
+        int lenEnd = index;
+        while (lenEnd < raw.length && int.tryParse(raw[lenEnd]) != null) {
+          lenEnd++;
+        }
+        if (lenEnd == index) {
           // malformed - consume rest as a single field
           final rest = raw.substring(index);
           fieldValues.add(f.decode(rest));
           index = raw.length;
         } else {
-          final lenStr = raw.substring(index, hashPos);
+          final lenStr = raw.substring(index, lenEnd);
           final len = int.tryParse(lenStr) ?? -1;
           if (len < 0) {
             // treat remainder as the field
-            final rest = raw.substring(hashPos + 1);
+            final rest = raw.substring(lenEnd);
             fieldValues.add(f.decode(rest));
             index = raw.length;
           } else {
-            final endPos = (hashPos + 1 + len).clamp(0, raw.length);
-            fieldValues.add(raw.substring(hashPos + 1, endPos));
-            index = hashPos + 1 + len;
+            final endPos = (lenEnd + len).clamp(0, raw.length);
+            fieldValues.add(raw.substring(lenEnd, endPos));
+            index = lenEnd + len;
           }
         }
       } else if (f is KeywordField) {
@@ -192,14 +185,22 @@ class GenericRecordFormat implements RecordFormat {
           fieldValues.add(f.decode(part));
           index = end + 1;
         }
+      } else {
+        // Unknown FieldFormat - try to consume until next separator or end
+        final nextSep = raw.indexOf(';', index);
+        if (nextSep == -1) {
+          fieldValues.add(raw.substring(index));
+          index = raw.length;
+        } else {
+          fieldValues.add(raw.substring(index, nextSep));
+          index = nextSep + 1;
+        }
       }
     }
 
     return Record(fieldValues);
   }
 
-  // Helper to decode a single record starting at `startIndex` and returning
-  // both the decoded Record and the index after the record (nextIndex).
   _RecordDecodeResult _decodeRecordFrom(String raw, int startIndex) {
     final fieldValues = <String>[];
     int index = startIndex;
@@ -222,21 +223,22 @@ class GenericRecordFormat implements RecordFormat {
           index = delimIndex + f.delimiter.length;
         }
       } else if (f is LengthIndicatorField) {
-        final hashPos = raw.indexOf('#', index);
-        if (hashPos == -1) {
+        // Parse length digits
+        int lenEnd = index;
+        while (lenEnd < raw.length && int.tryParse(raw[lenEnd]) != null) {
+          lenEnd++;
+        }
+        if (lenEnd == index) {
           // malformed - consume rest
           final rest = raw.substring(index);
           fieldValues.add(f.decode(rest));
           index = raw.length;
         } else {
-          final len = int.parse(raw.substring(index, hashPos));
+          final len = int.parse(raw.substring(index, lenEnd));
           fieldValues.add(
-            raw.substring(
-              hashPos + 1,
-              (hashPos + 1 + len).clamp(0, raw.length),
-            ),
+            raw.substring(lenEnd, (lenEnd + len).clamp(0, raw.length)),
           );
-          index = hashPos + 1 + len;
+          index = lenEnd + len;
         }
       } else if (f is KeywordField) {
         final end = raw.indexOf(';', index);
@@ -280,20 +282,16 @@ class GenericRecordFormat implements RecordFormat {
           buffer.write(recordStr);
           break;
         case RecordSeparatorType.lengthIndicator:
-          buffer.write('${recordStr.length}#$recordStr${recordSeparator.delimiter}');
+          buffer.write('${recordStr.length}$recordStr');
           break;
         case RecordSeparatorType.numberOfFields:
-          // For number-of-fields mode, separate records with the record
-          // delimiter (e.g. newline) so the repository/readers can split
-          // records correctly when necessary.
-          buffer.write(recordStr + recordSeparator.delimiter);
+          buffer.write(recordStr);
           break;
       }
     }
 
     return buffer.toString().trim();
   }
-
 
   String encodeFromRows(List<List<String>> rows) {
     final records = rows.map((r) => Record(r)).toList();

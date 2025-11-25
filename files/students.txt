@@ -1,0 +1,7 @@
+id|name|gpa|department|email|phoneNumber|level
+FIELDS=7,TYPE=delimited,DELIMITER=%0A
+ID=1;Name=ibrahim;GPA=4.0;Department=CS;Email=;PhoneNumber=;Level=3;
+ID=2;Name=Ahmed;GPA=4.0;Department=CS;Email=;PhoneNumber=;Level=3;
+ID=3;Name=Abdullah;GPA=4.0;Department=CS;Email=;PhoneNumber=;Level=3;
+ID=4;Name=Amr;GPA=4.0;Department=CS;Email=;PhoneNumber=;Level=3;
+ID=5;Name=Mohammed;GPA=4.0;Department=Phy;Email=;PhoneNumber=;Level=3;
