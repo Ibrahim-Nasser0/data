@@ -2,7 +2,8 @@ import 'field_format.dart';
 
 class KeywordField implements FieldFormat {
   final String key;
-   final String headerName;
+   @override
+  final String headerName;
   KeywordField(this.key, {this.headerName = 'FIELD'});
 
   @override

@@ -35,7 +35,7 @@ class CourseRepository {
 
     // 2. تجميع المحتوى: الهيدر + فاصل سطر + البيانات
     final header = recordFormat.headerString();
-    final fullContent = header + '\n' + dataBody;
+    final fullContent = '$header\n$dataBody';
 
     await fileManager.write(fileName, fullContent);
   }
@@ -62,7 +62,7 @@ class CourseRepository {
         final fields = r.fields;
         // 👈 يجب أن يكون التحويل متطابقاً مع ترتيب الحقول في _saveCoursesToFile
         return CourseModel(
-          code: fields.length > 0 ? fields[0].trim() : '',
+          code: fields.isNotEmpty ? fields[0].trim() : '',
           name: fields.length > 1 ? fields[1].trim() : '',
           creditHours: fields.length > 2
               ? int.tryParse(fields[2].trim()) ?? 0
@@ -127,7 +127,7 @@ class CourseRepository {
     final header = recordFormat.headerString();
     await fileManager.write(
       fileName,
-      header + '\n',
+      '$header\n',
     ); // الأفضل ترك سطر جديد بعد الهيدر
   }
 

@@ -2,6 +2,7 @@ import 'field_format.dart';
 
 class DelimitedField implements FieldFormat {
   final String delimiter;
+  @override
   final String headerName;
 
   DelimitedField({this.delimiter = ':', this.headerName = 'FIELD'});

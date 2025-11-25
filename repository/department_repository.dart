@@ -88,9 +88,9 @@ class DepartmentRepository {
     ]);
 
     final header = recordFormat.headerString();
-    final fullContent = header + '\n' + dataBody;
+    final fullContent = '$header\n$dataBody';
 
-    final fileName = 'departments/${departmentName}.txt';
+    final fileName = 'departments/$departmentName.txt';
     await fileManager.write(fileName, fullContent);
   }
 }

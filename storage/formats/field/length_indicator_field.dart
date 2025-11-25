@@ -1,6 +1,7 @@
 import 'field_format.dart';
 
 class LengthIndicatorField implements FieldFormat {
+  @override
   final String headerName;
 
   LengthIndicatorField({this.headerName = 'FIELD'});
